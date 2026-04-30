@@ -1,0 +1,37 @@
+# API密钥和配置文件
+config.yaml
+.env
+*.env
+*_api_key*
+*_secret*
+
+# 缓存文件
+cache/
+!cache/.gitkeep
+*.tmp
+
+# 备份文件
+*.backup
+*.bak
+*.orig
+
+# API使用统计
+api_usage.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 系统
+.DS_Store
+Thumbs.db

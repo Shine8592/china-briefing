@@ -1,0 +1,90 @@
+{
+  "mode_name": "detailed_mode",
+  "version": "1.0",
+  "description": "固化详细模式，防止生成注水简报",
+  
+  "quality_standards": {
+    "min_words": 800,
+    "max_words": 2500,
+    "min_headlines": 3,
+    "min_categories": 2,
+    "min_sources": 3,
+    "headline_min_words": 150,
+    "headline_max_words": 300,
+    "min_quality_score": 80
+  },
+  
+  "required_sections": [
+    "🌍 核心结论",
+    "📌 速报",
+    "📊 分类热点",
+    "🎯 行动建议"
+  ],
+  
+  "anti_water_rules": {
+    "forbidden_phrases": [
+      "暂无相关信息",
+      "暂无数据",
+      "敬请期待",
+      "持续关注",
+      "本文将持续",
+      "未有报道",
+      "暂无更新"
+    ],
+    "enforcement": "strict"
+  },
+  
+  "dudu_comments": {
+    "required": true,
+    "keywords": ["嘟嘟点评", "点评", "看法", "我认为", "这意味着"],
+    "min_per_headline": 1,
+    "required_elements": [
+      "事实背景",
+      "个人观点",
+      "对读者的意义"
+    ]
+  },
+  
+  "source_requirements": {
+    "min_sources": 3,
+    "invalid_sources": ["未知", "网络", "互联网", "unknown"],
+    "must_include": ["媒体名称", "URL"]
+  },
+  
+  "quality_gate": {
+    "auto_check": true,
+    "max_retries": 3,
+    "script_path": "scripts/quality_gate.py",
+    "pass_threshold": 80
+  },
+  
+  "scale_specific": {
+    "global": {
+      "min_sources": 5,
+      "required_sources": ["Reuters", "BBC", "中国官媒"],
+      "search_depth": "advanced"
+    },
+    "national": {
+      "min_sources": 4,
+      "required_sources": ["新华社", "央视", "至少2家不同立场媒体"]
+    },
+    "provincial": {
+      "min_sources": 3,
+      "required_sources": ["官方媒体", "本地媒体"]
+    },
+    "local": {
+      "min_sources": 2,
+      "required_sources": ["政府官网", "至少1个其他来源"]
+    },
+    "industry": {
+      "min_sources": 3,
+      "required_sources": ["行业媒体", "社区", "研报"]
+    }
+  },
+  
+  "output_format": {
+    "include_quality_score": true,
+    "include_check_report": false,
+    "template": "standard_v2"
+  }
+}

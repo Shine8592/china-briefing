@@ -1,0 +1,35 @@
+# china-briefing 配置文件模板
+# 复制此文件为 config.yaml 并填入您的 API 密钥
+# 注意：不要将包含真实密钥的配置文件提交到 Git 仓库！
+
+api_keys:
+  # Tavily API 密钥
+  # 从 https://app.tavily.com/ 获取
+  # 设置方法（任选其一）：
+  #   1. 环境变量: export TAVILY_API_KEY="your-key-here"
+  #   2. 配置文件: 在下方填入您的密钥（不推荐提交到Git）
+  
+  tavily: "YOUR_TAVILY_API_KEY_HERE"
+
+# 缓存配置
+cache:
+  # 缓存过期时间（秒）
+  default_ttl: 3600
+  # 搜索结果缓存：30分钟
+  search_ttl: 1800
+
+# API 限制
+api_limits:
+  # Tavily 免费套餐：1000次/天
+  daily_quota: 1000
+  # 速率限制：30次/分钟
+  rate_limit_per_minute: 30
+
+# 用户偏好
+preferences:
+  # 默认查询尺度
+  default_scale: "general"
+  # 是否启用缓存
+  enable_cache: true
+  # 最大搜索结果数
+  max_results: 10
