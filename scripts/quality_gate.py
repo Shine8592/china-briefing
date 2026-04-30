@@ -151,8 +151,22 @@ def check_sources(text: str) -> Tuple[bool, str, int]:
         return False, f"来源标注不足（{source_count}/{min_sources}），补充来源", source_count
     
     # 检查是否有"未知"、"网络"等无效来源
-    invalid_sources = ["未知", "网络", "互联网", "unknown", "网络来源"]
-    found_invalid = [s for s in invalid_sources if s in text]
+    # 改进：只检测"来源：网络"这种格式，而不是任意位置的"网络"
+    invalid_sources = ["未知", "互联网", "unknown", "网络来源"]
+    found_invalid = []
+    for s in invalid_sources:
+        # 只检查"来源：XXX"这种格式
+        import re
+        pattern = r'来源[：:]\s*' + re.escape(s) + r'[^\n]*'
+        if re.search(pattern, text):
+            found_invalid.append(s)
+    
+    # 特殊处理："网络"这个词需要更精准的判断
+    if '网络' in text:
+        # 检查是否是"来源：网络"或"来源:网络"
+        if re.search(r'来源[：:]\s*网络', text):
+            found_invalid.append('网络（来源标注）')
+    
     if found_invalid:
         return False, f"发现无效来源：{', '.join(found_invalid)}，请标注具体媒体", source_count
     
