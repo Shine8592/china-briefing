@@ -156,7 +156,6 @@ def check_sources(text: str) -> Tuple[bool, str, int]:
     found_invalid = []
     for s in invalid_sources:
         # 只检查"来源：XXX"这种格式
-        import re
         pattern = r'来源[：:]\s*' + re.escape(s) + r'[^\n]*'
         if re.search(pattern, text):
             found_invalid.append(s)
