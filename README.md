@@ -29,8 +29,8 @@ china-briefing/
 │   ├── international-sources.md   # 国际新闻来源库
 │   ├── quality-gate.md            # 质量门禁（单一实现源）
 │   ├── search-sources.md          # 全尺度搜索源库
-│   ├── tavily-setup.md            # Tavily API 配置指南
-│   ├── tavily-usage.md            # Tavily API 使用参考
+│   ├── tavily-setup.md            # [已废弃] Tavily 配置指南（存档）
+│   ├── tavily-usage.md            # [已废弃] Tavily 使用参考（存档）
 │   └── user-interest-integration.md  # 用户兴趣集成文档
 └── config/
     └── detailed_mode.json         # 详细模式配置
@@ -39,22 +39,19 @@ china-briefing/
 ## 🔧 安装
 
 ### 环境要求
-- [Tavily API Key](https://app.tavily.com/)（免费：1000次/天）
-- Hermes Agent
+- `free_search` MCP 工具（**免 API Key**，无需任何密钥配置）
+- QwenPaw / Hermes Agent
+
+> ⚠️ 旧版依赖的 Tavily API Key **自 2026-10 起已废弃**（本机出口 IP 被 `api.tavily.com` 整站 403）。新版无需任何密钥。
 
 ### 安装步骤
 
 ```bash
-# 1. 将技能目录放入 Hermes skills 目录
-cp -r china-briefing ~/.hermes/skills/
+# 1. 将技能目录放入 skills 目录
+cp -r china-briefing <workspace>/skills/
 
-# 2. 配置 Tavily API Key（二选一）
-# 方式 A：环境变量（推荐）
-echo 'TAVILY_API_KEY="your-key"' >> ~/.hermes/.env
-
-# 方式 B：配置文件
-cp config.example.yaml config.yaml
-# 编辑 config.yaml 填入密钥
+# 2. 安装 free_search MCP（免 Key，无需任何密钥配置）
+uv tool install free-search-mcp
 ```
 
 ## 🚀 使用
@@ -77,7 +74,7 @@ AI 行业最新动态
 
 技能自动：
 1. 确定地理尺度和搜索词
-2. 用 `web_search`（Tavily）搜索实时资讯
+2. 用 `free_search` MCP 工具搜索实时资讯
 3. 生成结构化简报（核心结论 + 3条头条 + 分类热点 + 行动建议）
 4. 执行质量门禁检查
 5. 交付最终简报

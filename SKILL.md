@@ -6,14 +6,15 @@ description: |
   获取资讯，结构化输出。
   使用场景：用户要求"简报"、"资讯"、"早报"、"晚报"、"周报"、"XX简报"、
   "XX资讯"、"本地新闻"、"国际新闻"、"街道新闻"等。
-  外部依赖：web_search 搜索工具。
+  外部依赖：free_search MCP 工具（免 API Key 多引擎搜索）。核心：free_search__search（搜索）、
+  free_search__research（搜索+抓正文，最省事）、free_search__fetch / read_doc（直连抓取与文档解析）。
 ---
 
 # China Briefing — 多尺度中文资讯简报
 
 ## ⚠️ 规则优先级（冲突时按此顺序裁决）
 
-1. **安全底线** — 绝不虚构数据，必须用 `web_search` 获取实时信息
+1. **安全底线** — 绝不虚构数据，必须用 `free_search` 工具获取实时信息
 2. **结构完整性** — 必须包含所有必填板块（见简报结构），不可省略
 3. **来源可信度** — 每个事实标注来源媒体 + URL
 4. **内容质量** — 字数、角度、反注水（见质量门禁）
@@ -33,7 +34,7 @@ description: |
 
 ### 强制规则
 
-1. **必须**调用 `web_search` 工具搜索实时数据（禁止仅凭已有知识生成）
+1. **必须**调用 `free_search__search` 工具搜索实时数据（禁止仅凭已有知识生成）
 2. **必须**按简报尺度选择搜索源：
    - **全球简报**：仅搜国际源（reuters.com, bbc.com, bloomberg.com, apnews.com, cnbc.com, aljazeera.com 等），不混入国内新闻
    - **国内简报**：仅搜国内源（xinhuanet.com, thepaper.cn, scio.gov.cn, gov.cn, cctv.com 等）
@@ -48,12 +49,16 @@ description: |
 
 ### 搜索参数与尺度绑定
 
-| 尺度 | `search_depth` | `max_results` | `include_domains` 示例 |
-|------|---------------|---------------|----------------------|
-| 全球/国家 | `advanced` | 10 | reuters, bbc, xinhuanet, apnews, bloomberg |
-| 省市 | `advanced` | 8 | 本地官媒, 市政府网, 省级日报 |
-| 区县/街道 | `basic` | 5 | 政府官网, 政务公众号, 社区 |
-| 行业/垂直 | `advanced` | 8 | 行业媒体, 社区平台 |
+| 尺度 | `max_results` | `freshness` | `category` | `include_domains` 示例 |
+|------|---------------|-------------|-----------|----------------------|
+| 全球/国家 | 10 | `day` | `news` | reuters.com, bbc.com, apnews.com, aljazeera.com |
+| 省市 | 8 | `week` | `news` | 本地官媒, 市政府网, 省级日报 |
+| 区县/街道 | 5 | `week` | — | 政府官网, 政务公众号, 社区 |
+| 行业/垂直 | 8 | `week` | — | 行业媒体, 社区平台 |
+
+> ✅ **`free_search__search` 实测可用参数**：`query` / `engines` / `max_results` / `freshness`(day\|week\|month\|year) / `include_domains` / `exclude_domains` / `category` / `include_text` / `exclude_text` / `use_cache` / `max_age_hours` / `format`。
+> ⚠️ **不存在 `search_depth` 参数**（旧 Tavily 遗留，传了无效）——只有 `free_search__research` 才有 `depth`（= 抓取正文的篇数）。
+> 💡 **最省事**：`free_search__research(question=..., depth=3, category="news", freshness="day")` 一步拿到「搜索 + 正文」，比 `search` 更适合简报。
 
 ### 搜索源库（详见 reference 文件）
 
@@ -62,7 +67,7 @@ description: |
 
 | 尺度 | 最少来源数 | 必须包含 |
 |------|----------|---------|
-| 全球 | 5+ | Reuters + 1家中国官媒 + 1家社区 |
+| 全球 | 5+ | ≥2 家国际通讯社（Reuters / AP）+ ≥2 家不同立场媒体（如 BBC + Al Jazeera）｜**不混入国内源** |
 | 全国 | 4+ | 至少2家不同立场 |
 | 省市 | 3+ | 官方 + 本地 |
 | 区县/街道 | 2+ | 政府官网 + 至少1个来源 |
@@ -70,9 +75,12 @@ description: |
 
 ### ⚠️ 故障回退
 
-- **web_search 超时/失败** → 重试 1 次；仍失败则用已收集的信息生成简报，在底部标注"本期搜索受限"
+- **free_search__search 超时/失败** → 重试 1 次；仍失败改用 `free_search__research` 或 `free_search__fetch` 直连抓取主要新闻源首页（实测可达：bbc.com / aljazeera.com / cnn.com / dw.com / cna.com.tw / 8world.com）
 - **某尺度搜索返回 0 结果** → 放宽到相邻更大尺度（街道无结果→搜区级；区级无→市级）
-- **Tavily API 不可用** → 退回到记忆中的最近已知信息 + 标注"数据来源：历史缓存"
+- **搜索引擎整体不可用**（如出口 IP 被限流）→ 退回 `free_search__fetch` 直连抓取新闻源首页；若直连也不通，再用记忆中的最近已知信息并标注"数据来源：历史缓存"
+- **⚠️ JS 重站点拿不到正文**（bloomberg.com / ft.com 等）→ 报 `Playwright's Chromium browser is not installed`。这类站点只能取到标题/URL，**不要依赖其正文**；需要正文时换 bbc.com / aljazeera.com / apnews.com 等可直接解析的源，或先安装 Chromium（见下）。
+- **注**：`tavily_mcp` / `web_search` 自 2026-10 起因出口 IP 被 api.tavily.com 整站 403，**已废弃，不要用作回退路径**
+- **注**：`free_search` 共 11 个工具（search / research / fetch / fetch_batch / read_doc / compare / paper_graph / cache_search / engines / extract_structured / download）。`read_doc` 读 PDF/DOCX/XLSX/PPTX/EPUB 是**可用**的。
 
 ---
 
@@ -140,20 +148,25 @@ description: |
 
 ---
 
-## 🔧 API 配置
+## 🔧 搜索工具配置
 
-Tavily API 密钥来源（按优先级）：
-1. 环境变量 `TAVILY_API_KEY`（`~/.hermes/.env`）
-2. 技能目录下 `config.yaml` 的 `api_keys.tavily`
+**主用工具：`free_search`（MCP，免 API Key）** —— 无需任何密钥或配置文件，开箱即用。
 
-详情见 `references/tavily-setup.md` 和 `references/tavily-usage.md`。
+| 工具 | 用途 |
+|------|------|
+| `free_search__search` | 关键词搜索，支持 `include_domains` / `max_results` / `freshness` / `category` / `engines`（**无 `search_depth`**） |
+| `free_search__research` | 一次调用 = 搜索 + 抓取前 N 篇正文，直接返回带引用的 Markdown 简报（最省事） |
+| `free_search__fetch` / `free_search__fetch_batch` | 抓取指定 URL 正文（多源直连兜底） |
+| `free_search__read_doc` | 读取 PDF / DOCX / XLSX / PPTX / EPUB |
+
+**已废弃**：Tavily（`tavily_mcp` 与内置 `web_search`）。自 2026-10 起本机出口 IP 被 `api.tavily.com` 整站 403（`server: awselb/2.0`），非 Key 失效。旧文档 `references/tavily-setup.md`、`references/tavily-usage.md` 仅作存档。
 
 ---
 
 ## 使用流程
 
 1. **确定尺度+搜索词** — 判断地理范围+用户兴趣扩展
-2. **搜索** — 按尺度参数表调用 `web_search`，满足最少来源数
+2. **搜索** — 按尺度参数表调用 `free_search__search`（或 `free_search__research`），满足最少来源数
 3. **生成初稿** — 严格按简报结构，每板块必填
 4. **质量门禁** — 执行 `references/quality-gate.md` 检查
 5. **交付** — 输出最终简报（不达标则修正或重新生成）

@@ -3,25 +3,25 @@
 ## 全球尺度（≥5种来源）
 | 媒体 | 定位 | 获取方式 |
 |------|------|---------|
-| Reuters | 事实最快 | Tavily API |
-| BBC中文 | 国际视角 | Tavily API |
-| CNN | 突发新闻 | Tavily API |
-| Al Jazeera | 中东独特 | Tavily API |
-| NYT中文 | 深度分析 | Tavily API |
-| FT中文 | 经济深度 | Tavily API |
-| 日经中文 | 亚洲经济 | Tavily API |
-| DW德国之声 | 欧洲+中东 | Tavily API |
+| Reuters | 事实最快 | free_search |
+| BBC中文 | 国际视角 | free_search |
+| CNN | 突发新闻 | free_search |
+| Al Jazeera | 中东独特 | free_search |
+| NYT中文 | 深度分析 | free_search |
+| FT中文 | 经济深度 | free_search |
+| 日经中文 | 亚洲经济 | free_search |
+| DW德国之声 | 欧洲+中东 | free_search |
 
 ## 全国尺度（≥4种来源）
 | 媒体 | 获取方式 |
 |------|---------|
-| 新华社 | Tavily API |
-| 央视新闻 | Tavily API |
-| 环球时报 | Tavily API |
-| 观察者网 | Tavily API |
-| 澎湃新闻 | Tavily API |
-| 新浪财经 | Tavily API |
-| 网易新闻 | Tavily API |
+| 新华社 | free_search |
+| 央视新闻 | free_search |
+| 环球时报 | free_search |
+| 观察者网 | free_search |
+| 澎湃新闻 | free_search |
+| 新浪财经 | free_search |
+| 网易新闻 | free_search |
 
 ## 省市尺度（≥3种来源）
 | 来源 | 搜索策略 |

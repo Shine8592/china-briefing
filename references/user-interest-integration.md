@@ -16,7 +16,7 @@ This document describes how the china-briefing skill incorporates the user's sta
    - 上海 最新 新闻 政策
    - 上海 最新 新闻 技能提升
    The base query itself is also retained to ensure broad coverage.
-4. **Execute Searches** – The expanded query list is fed to the Tavily API (via web_search) to collect real‑time sources.
+4. **Execute Searches** – The expanded query list is fed to the `free_search` MCP tools (`free_search__search` / `free_search__research`) to collect real‑time sources.
 5. **Synthesis** – Results are filtered, deduplicated, and woven into the briefing sections, ensuring that at least one source per interest area appears when available.
 
 ## Benefits

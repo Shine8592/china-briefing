@@ -1,3 +1,6 @@
+# ⚠️ [已废弃 2026-10] 本脚本依赖 Tavily Python SDK 直连 api.tavily.com，该端点对本机出口 IP 已整站 403。
+# 当前简报流程改用 free_search MCP 工具（free_search__search / free_search__research），见 SKILL.md。
+# 本脚本未被 SKILL.md 引用，保留仅作存档；如需复用请改为调用 free_search MCP。
 #!/usr/bin/env python3
 """
 briefing_helper_enhanced.py — 增强版新闻简报辅助工具

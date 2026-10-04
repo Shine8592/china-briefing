@@ -1,5 +1,6 @@
-# china-briefing 配置文件模板
-# 复制此文件为 config.yaml 并填入您的 API 密钥
+# china-briefing 配置文件
+# ⚠️ 本文件仅服务于【已废弃】的 Tavily 搜索路径（2026-10 起不可用）。
+#    当前主用 free_search MCP（免 API Key），新管线不使用本文件的任何密钥。
 # 注意：不要将包含真实密钥的配置文件提交到 Git 仓库！
 
 api_keys:

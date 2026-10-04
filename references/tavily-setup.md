@@ -1,3 +1,6 @@
+> ⚠️ **[已废弃 2026-10]** 本文档描述的 Tavily 路径已不可用（本机出口 IP 被 `api.tavily.com` 整站 403）。
+> 当前主用 **`free_search` MCP**（免 API Key），请以 `SKILL.md` 的「🔧 搜索工具配置」为准。本文仅作存档。
+
 # Tavily API 配置指南
 
 ## 获取 API Key

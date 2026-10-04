@@ -10,45 +10,45 @@
 ### 西方主流媒体
 | 媒体 | 定位 | 获取方式 | 覆盖范围 |
 |------|------|---------|---------|
-| Reuters | 事实最快，全球覆盖 | Tavily + reuters.com | 全球政治/经济 |
-| AP News | 美联社，权威快讯 | Tavily + apnews.com | 全球突发/政治 |
-| BBC | 英国视角，国际新闻 | Tavily + bbc.com | 全球/英国/中东 |
-| CNN | 美国新闻+全球视角 | Tavily + cnn.com | 美国/全球热点 |
-| NYT | 深度分析，调查报道 | Tavily + nytimes.com | 全球深度/政治 |
+| Reuters | 事实最快，全球覆盖 | free_search + reuters.com | 全球政治/经济 |
+| AP News | 美联社，权威快讯 | free_search + apnews.com | 全球突发/政治 |
+| BBC | 英国视角，国际新闻 | free_search + bbc.com | 全球/英国/中东 |
+| CNN | 美国新闻+全球视角 | free_search + cnn.com | 美国/全球热点 |
+| NYT | 深度分析，调查报道 | free_search + nytimes.com | 全球深度/政治 |
 
 ### 财经媒体
 | 媒体 | 定位 | 获取方式 |
 |------|------|---------|
-| Bloomberg | 全球金融数据 | Tavily + bloomberg.com |
-| Financial Times | 经济深度分析 | Tavily + ft.com |
-| CNBC | 商业/股市快讯 | Tavily + cnbc.com |
-| Wall Street Journal | 商业/政治 | Tavily + wsj.com |
+| Bloomberg | 全球金融数据 | free_search + bloomberg.com |
+| Financial Times | 经济深度分析 | free_search + ft.com |
+| CNBC | 商业/股市快讯 | free_search + cnbc.com |
+| Wall Street Journal | 商业/政治 | free_search + wsj.com |
 
 ### 中东/欧洲视角
 | 媒体 | 定位 | 获取方式 |
 |------|------|---------|
-| Al Jazeera | 中东独特视角 | Tavily + aljazeera.com |
-| DW (Deutsche Welle) | 欧洲视角 | Tavily + dw.com |
+| Al Jazeera | 中东独特视角 | free_search + aljazeera.com |
+| DW (Deutsche Welle) | 欧洲视角 | free_search + dw.com |
 
 ### 中国媒体（国际版）
 | 媒体 | 定位 | 获取方式 |
 |------|------|---------|
-| 新华社 | 中国官媒 | Tavily + xinhuanet.com |
-| 央视新闻/CCTV | 中国视角 | Tavily + cctv.com |
-| 环球时报 | 国际评论 | Tavily + globaltimes.cn |
+| 新华社 | 中国官媒 | free_search + xinhuanet.com |
+| 央视新闻/CCTV | 中国视角 | free_search + cctv.com |
+| 环球时报 | 国际评论 | free_search + globaltimes.cn |
 
 ### 中文商业媒体
 | 媒体 | 定位 | 获取方式 |
 |------|------|---------|
-| 新浪财经 | A股/中概股 | Tavily + finance.sina.com.cn |
-| 财联社 | 快讯/电报 | Tavily + cls.cn |
-| 澎湃新闻 | 深度调查 | Tavily + thepaper.cn |
-| 观察者网 | 时政评论 | Tavily + guancha.cn |
-| 36氪 | 科技商业 | Tavily + 36kr.com |
+| 新浪财经 | A股/中概股 | free_search + finance.sina.com.cn |
+| 财联社 | 快讯/电报 | free_search + cls.cn |
+| 澎湃新闻 | 深度调查 | free_search + thepaper.cn |
+| 观察者网 | 时政评论 | free_search + guancha.cn |
+| 36氪 | 科技商业 | free_search + 36kr.com |
 
 ## 技术搜索技巧
 
-### Tavily API 域名限定
+### free_search 域名限定
 ```bash
 # 仅搜国际媒体
 "include_domains": ["reuters.com", "bbc.com", "cnn.com", "apnews.com", "nytimes.com"]
