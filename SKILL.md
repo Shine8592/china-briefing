@@ -75,10 +75,11 @@ description: |
 
 ### ⚠️ 故障回退
 
-- **free_search__search 超时/失败** → 重试 1 次；仍失败改用 `free_search__research` 或 `free_search__fetch` 直连抓取主要新闻源首页（实测可达：bbc.com / aljazeera.com / cnn.com / dw.com / cna.com.tw / 8world.com）
+- **free_search__search 超时/失败** → 重试 1 次；仍失败改用 `free_search__research` 或 `free_search__fetch` 直连抓取新闻源首页（2026-10-04 实测可直连：bbc.com / aljazeera.com / cnn.com / dw.com / cna.com.tw / 8world.com / apnews.com / ft.com）
 - **某尺度搜索返回 0 结果** → 放宽到相邻更大尺度（街道无结果→搜区级；区级无→市级）
 - **搜索引擎整体不可用**（如出口 IP 被限流）→ 退回 `free_search__fetch` 直连抓取新闻源首页；若直连也不通，再用记忆中的最近已知信息并标注"数据来源：历史缓存"
-- **⚠️ JS 重站点拿不到正文**（bloomberg.com / ft.com 等）→ 报 `Playwright's Chromium browser is not installed`。这类站点只能取到标题/URL，**不要依赖其正文**；需要正文时换 bbc.com / aljazeera.com / apnews.com 等可直接解析的源，或先安装 Chromium（见下）。
+- **⚠️ Reuters 与 Bloomberg 有强反爬** → 直连 `fetch` 只会拿到 `Access Denied` / `Are you a robot?` 拒绝页（**浏览器渲染也绕不过**，2026-10-04 实测）。这两家**只用 `search` / `research` 取标题与摘要，不要依赖直连正文**；需要正文时换 bbc.com / aljazeera.com / apnews.com / dw.com 等。
+- **浏览器（Chromium）状态**：已安装于持久盘 `.local/ms-playwright`（658M），由启动脚本导出 `PLAYWRIGHT_BROWSERS_PATH` 指向它。若仍报 `Chromium browser is not installed`，说明 MCP 进程需重启 —— 该判定是**粘性缓存**（失败一次后本进程永久标记不可用）。
 - **注**：`tavily_mcp` / `web_search` 自 2026-10 起因出口 IP 被 api.tavily.com 整站 403，**已废弃，不要用作回退路径**
 - **注**：`free_search` 共 11 个工具（search / research / fetch / fetch_batch / read_doc / compare / paper_graph / cache_search / engines / extract_structured / download）。`read_doc` 读 PDF/DOCX/XLSX/PPTX/EPUB 是**可用**的。
 
