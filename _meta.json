@@ -1,7 +1,7 @@
 {
-  "ownerId": "kn7b58zxnygbypnjf7yb4zwy5982rg9e",
   "slug": "china-briefing",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "publishedAt": 1775318611714,
-  "updatedAt": 1782950400000
+  "updatedAt": 1795052961910,
+  "description": "多尺度中文资讯简报技能 v4（四引擎协作版） / Multi-scale Chinese news briefing skill v4 (four-engine collaboration)"
 }

@@ -4,7 +4,7 @@ This document describes how the china-briefing skill incorporates the user's sta
 
 ## Workflow
 1. **Determine Scale & Base Terms** – As per the skill's usage flow, the agent first identifies the geographic scope (global, national, provincial, municipal, district/street, etc.) and drafts a base search query (e.g., "上海 最新 新闻").
-2. **Retrieve User Interests** – The agent consults its persistent memory (via the semantic-memory-auto skill or direct memory recall) for the user‑interest entry:
+2. **Retrieve User Interests** – The agent consults its persistent memory (via the `memory-system` skill, or direct memory recall with `memory_search` / `memory_recall`) for the user‑interest entry:
    ```
    用户对住房、就业、社保、物价、政策、技能提升有兴趣；偏好性价比优先、经久耐用、不伤害身体的消费。
    ```
